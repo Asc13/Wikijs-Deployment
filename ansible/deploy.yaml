@@ -1,0 +1,26 @@
+---
+- name: create infrastructure (network and the kubernetes cluster)
+  hosts: localhost
+  gather_facts: false
+  environment: 
+    GOOGLE_CREDENTIALS: "{{ credentials_file }}"
+
+  roles:
+    - network_create
+    - k8s_create_cluster
+  tags:
+    - create_k8s
+
+- name: deploy the wikijs app and database using cloud sql
+  hosts: localhost
+  gather_facts: false
+  environment:
+    GOOGLE_CREDENTIALS: "{{ credentials_file }}"
+
+  roles:
+    - {role: deploy_db_master, tags: 'deploy_db_master'}
+    - {role: deploy_db_replicas, tags: 'deploy_db_replicas'}
+    - {role: k8s_deploy_app, tags: 'deploy_k8s_app'}
+  tags:
+    - deploy_app
+

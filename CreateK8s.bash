@@ -1,0 +1,1 @@
+ansible-playbook ansible/create-k8s.yaml

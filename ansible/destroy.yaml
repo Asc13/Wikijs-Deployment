@@ -1,0 +1,27 @@
+---
+- name: Destroy the namespace and the database
+  hosts: localhost
+  gather_facts: false
+  environment:
+    GOOGLE_CREDENTIALS: "{{ credentials_file }}"
+
+  roles:
+    - {role: k8s_destroy_app, tags: 'destroy_k8s_app'}
+    - {role: destroy_db_replicas, tags: 'destroy_db_replicas'}
+    - {role: destroy_db_master, tags: 'destroy_db_master'} 
+  tags:
+    - destroy_deployment
+
+- name: destroy infrastructure
+  hosts: localhost
+  gather_facts: false
+  environment:
+    GOOGLE_CREDENTIALS: "{{ credentials_file }}"
+
+  roles:
+    - {role: k8s_destroy_cluster, tags: 'destroy_cluster'}
+    - {role: network_destroy, tags: 'destroy_network'}
+  tags:
+    - destroy_k8s
+
+

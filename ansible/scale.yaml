@@ -1,0 +1,24 @@
+---
+- name: scale cluster pods
+  hosts: localhost
+  gather_facts: false
+  environment: 
+    GOOGLE_CREDENTIALS: "{{ credentials_file }}"
+
+  roles:
+    - scale_k8s_pods
+  tags:
+    - scale_pods
+
+- name: scale database replicas
+  hosts: localhost
+  gather_facts: false
+  environment:
+    GOOGLE_CREDENTIALS: "{{ credentials_file }}"
+
+  roles:
+    - {role: destroy_db_replicas, tags: 'dowscale_db_replicas'}
+    - {role: deploy_db_replicas, tags: 'upscale_db_replicas'}
+  tags:
+    - scale_db_replicas
+

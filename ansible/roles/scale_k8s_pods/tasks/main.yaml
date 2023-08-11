@@ -1,0 +1,8 @@
+---
+- name: scale cluster pods
+  kubernetes.core.k8s_scale:
+    api_version: v1
+    kind: Deployment
+    name: '{{ app }}'
+    replicas: '{{ new_num_of_replicas }}'
+    namespace: '{{ namespace }}'

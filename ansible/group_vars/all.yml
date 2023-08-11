@@ -1,0 +1,28 @@
+#Kubernetes Cluster
+zone: europe-west2-a
+region: europe-west2
+project_id: ascn-tp-336100
+gcloud_sa_path: "service-account.json"
+credentials_file: "./{{ gcloud_sa_path }}"
+gcloud_service_account: 355275905171-compute@developer.gserviceaccount.com 
+
+cluster_name: k8s-wikijs
+initial_node_count: 3
+disk_size_gb: 50
+disk_type: pd-standard
+machine_type: n1-standard-1
+
+#Pods
+namespace: wikijs
+pod_replicas: 2
+
+#Database
+master_db_name: wikijs-db-533478
+replica_name: wikijs-replica
+
+DB_TYPE: "mysql"
+DB_HOST: "cloudsqlproxy~%"
+DB_PORT: "3306"
+DB_USER: "proxy"
+DB_PASS: ""
+DB_NAME: "wikijs_db"
